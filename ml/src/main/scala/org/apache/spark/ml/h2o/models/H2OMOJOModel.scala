@@ -135,7 +135,10 @@ class H2OMOJOModel(val mojoData: Array[Byte], override val uid: String)
 
   private def getOrCreateEasyModelWrapper() = {
     if (easyPredictModelWrapper == null) {
-      easyPredictModelWrapper = new EasyPredictModelWrapper(ModelSerializationSupport.getMojoModel(mojoData))
+      val config = new EasyPredictModelWrapper.Config()
+      config.setModel(ModelSerializationSupport.getMojoModel(mojoData))
+      config.setConvertUnknownCategoricalLevelsToNa($(convertUnknownCategoricalLevelsToNa))
+      easyPredictModelWrapper = new EasyPredictModelWrapper(config)
     }
     easyPredictModelWrapper
   }
